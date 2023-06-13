@@ -1,1 +1,2 @@
 # MySQL-Prac.
+### Ejercicios basicos 
