@@ -56,7 +56,7 @@ SELECT NOMBRE,PRECIO,ROUND(PRECIO) AS R_P FROM product;
 #Lista los nombres y los precios de todos los productos de la tabla producto, truncando el valor del precio para mostrarlo sin ninguna cifra decimal.
 SELECT nombre, PRECIO, TRUNCATE(precio,0) AS T_PRE FROM PRODUCT;
 #Lista el identificador de los fabricantes que tienen productos en la tabla producto.
-SELECT DISTINCT f.id FROM manufacturer f INNER JOIN product p on f.id = p.id;
+
 SELECT ID_FABRICANTE FROM PRODUCT;
 #Lista el identificador de los fabricantes que tienen productos en la tabla producto, eliminando los identificadores que aparecen repetidos.
 SELECT DISTINCT ID_FABRICANTE FROM PRODUCT;
@@ -91,21 +91,47 @@ SELECT NOMBRE, PRECIO FROM PRODUCT WHERE PRECIO BETWEEN 60 AND 200;
 #Lista todos los productos que tengan un precio mayor que 200€ y que el identificador de fabricante sea igual a 6.
 SELECT NOMBRE, PRECIO FROM PRODUCT WHERE PRECIO > 200 AND ID_FABRICANTE =6; 
 #Lista todos los productos donde el identificador de fabricante sea 1, 3 o 5. Sin utilizar el operador IN.
-
+SELECT nombre, ID_fabricante FROM product where id_fabricante = 1 OR  id_fabricante = 3 OR id_fabricante= 5;
 #Lista todos los productos donde el identificador de fabricante sea 1, 3 o 5. Utilizando el operador IN.
-
+SELECT NOMBRE, ID_FABRICANTE FROM product WHERE ID_FABRICANTE IN(1,3,5);
 #Lista el nombre y el precio de los productos en céntimos (Habrá que multiplicar por 100 el valor del precio). Cree un alias para la columna que contiene el precio que se llame céntimos.
-
+SELECT NOMBRE,PRECIO*100 AS CENTIMOS FROM product; 
 #Lista los nombres de los fabricantes cuyo nombre empiece por la letra S.
-
+SELECT NOMBRE FROM MANUFACTURER WHERE NOMBRE LIKE 'S%';
 #Lista los nombres de los fabricantes cuyo nombre termine por la vocal e.
+SELECT NOMBRE FROM MANUFACTURER WHERE NOMBRE LIKE '%E'; 
+#Lista los nombres de los fabricantes cuyo nombre contenga el carácter w.
+SELECT NOMBRE FROM MANUFACTURER WHERE NOMBRE LIKE '%W%';
+#Lista los nombres de los fabricantes cuyo nombre sea de 4 caracteres.
+SELECT NOMBRE FROM MANUFACTURER WHERE length(NOMBRE) = 4;
+#Devuelve una lista con el nombre de todos los productos que contienen la cadena Portátil en el nombre.
+SELECT NOMBRE FROM product WHERE NOMBRE LIKE '%Portátil%';
+#Devuelve una lista con el nombre de todos los productos que contienen la cadena Monitor en el nombre y tienen un precio inferior a 215 €.
+SELECT NOMBRE,PRECIO FROM PRODUCT WHERE NOMBRE LIKE '%MONITOR%' AND PRECIO < 215;
+#Lista el nombre y el precio de todos los productos que tengan un precio mayor o igual a 180€. Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente).
+SELECT NOMBRE, PRECIO FROM PRODUCT WHERE PRECIO >= 180 ORDER BY PRECIO DESC, NOMBRE ASC;
+#Devuelve una lista con el nombre del producto, precio y nombre de fabricante de todos los productos de la base de datos.
+SELECT P.NOMBRE, P.PRECIO, M.NOMBRE FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID;
+#Devuelve una lista con el nombre del producto, precio y nombre de fabricante de todos los productos de la base de datos. Ordene el resultado por el nombre del fabricante, por orden alfabético.
+SELECT P.NOMBRE,P.PRECIO,M.NOMBRE FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID ORDER BY M.NOMBRE ASC;
+#Devuelve una lista con el identificador del producto, nombre del producto, identificador del fabricante y nombre del fabricante, de todos los productos de la base de datos.
 
-Lista los nombres de los fabricantes cuyo nombre contenga el carácter w.
+#Devuelve el nombre del producto, su precio y el nombre de su fabricante, del producto más barato.
 
-Lista los nombres de los fabricantes cuyo nombre sea de 4 caracteres.
+#Devuelve el nombre del producto, su precio y el nombre de su fabricante, del producto más caro.
 
-Devuelve una lista con el nombre de todos los productos que contienen la cadena Portátil en el nombre.
+#Devuelve una lista de todos los productos del fabricante Lenovo.
 
-Devuelve una lista con el nombre de todos los productos que contienen la cadena Monitor en el nombre y tienen un precio inferior a 215 €.
+#Devuelve una lista de todos los productos del fabricante Crucial que tengan un precio mayor que 200€.
 
-Lista el nombre y el precio de todos los productos que tengan un precio mayor o igual a 180€. Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente).
+#Devuelve un listado con todos los productos de los fabricantes Asus, Hewlett-Packardy Seagate. Sin utilizar el operador IN.
+
+#Devuelve un listado con todos los productos de los fabricantes Asus, Hewlett-Packardy Seagate. Utilizando el operador IN.
+
+#Devuelve un listado con el nombre y el precio de todos los productos de los fabricantes cuyo nombre termine por la vocal e.
+
+#Devuelve un listado con el nombre y el precio de todos los productos cuyo nombre de fabricante contenga el carácter w en su nombre.
+
+#Devuelve un listado con el nombre de producto, precio y nombre de fabricante, de todos los productos que tengan un precio mayor o igual a 180€. Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente)
+
+#Devuelve un listado con el identificador y el nombre de fabricante, solamente de aquellos fabricantes que tienen productos asociados en la base de datos.
