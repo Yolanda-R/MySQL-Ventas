@@ -115,23 +115,33 @@ SELECT P.NOMBRE, P.PRECIO, M.NOMBRE FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_F
 #Devuelve una lista con el nombre del producto, precio y nombre de fabricante de todos los productos de la base de datos. Ordene el resultado por el nombre del fabricante, por orden alfabético.
 SELECT P.NOMBRE,P.PRECIO,M.NOMBRE FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID ORDER BY M.NOMBRE ASC;
 #Devuelve una lista con el identificador del producto, nombre del producto, identificador del fabricante y nombre del fabricante, de todos los productos de la base de datos.
-
+SELECT P.ID AS ID_PRO, p.NOMBRE as NOM_PR, P.ID_FABRICANTE, m.nombre as nom_fab FROM product p JOIN MANUFACTURER M ON P.ID_FABRICANTE;
 #Devuelve el nombre del producto, su precio y el nombre de su fabricante, del producto más barato.
-
+SELECT  P.NOMBRE AS NOM_PROD, P.PRECIO, M.NOMBRE AS NOM_FAB FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID ORDER BY P.PRECIO ASC LIMIT 1;  
 #Devuelve el nombre del producto, su precio y el nombre de su fabricante, del producto más caro.
-
+SELECT P.NOMBRE AS NOM_PROD, P.PRECIO, M.NOMBRE AS NOM_FAB 
+FROM PRODUCT P 
+JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID 
+ORDER BY P.PRECIO DESC  
+LIMIT 1; 
 #Devuelve una lista de todos los productos del fabricante Lenovo.
-
+SELECT NOMBRE FROM MANUFACTURER
+WHERE NOMBRE NOT IN('LENOVO','SAMSUNG');
 #Devuelve una lista de todos los productos del fabricante Crucial que tengan un precio mayor que 200€.
-
+SELECT NOMBRE FROM PRODUCT 
+WHERE PRECIO >= 200;
 #Devuelve un listado con todos los productos de los fabricantes Asus, Hewlett-Packardy Seagate. Sin utilizar el operador IN.
-
+SELECT NOMBRE FROM MANUFACTURER
+WHERE NOMBRE = 'ASUS' OR NOMBRE ='Hewlett-Packard' OR NOMBRE = 'Seagate';
 #Devuelve un listado con todos los productos de los fabricantes Asus, Hewlett-Packardy Seagate. Utilizando el operador IN.
-
+SELECT NOMBRE FROM MANUFACTURER WHERE NOMBRE IN('ASUS','Hewlett-Packard','Seagate');
 #Devuelve un listado con el nombre y el precio de todos los productos de los fabricantes cuyo nombre termine por la vocal e.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT WHERE NOMBRE LIKE '%E';
 #Devuelve un listado con el nombre y el precio de todos los productos cuyo nombre de fabricante contenga el carácter w en su nombre.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT WHERE NOMBRE LIKE '%W%';
 #Devuelve un listado con el nombre de producto, precio y nombre de fabricante, de todos los productos que tengan un precio mayor o igual a 180€. Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente)
-
+SELECT P.NOMBRE AS N_PROD, P.PRECIO, M.NOMBRE FROM PRODUCT P 
+JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID
+WHERE P.PRECIO >= 180 
+ORDER BY P.PRECIO DESC , M.NOMBRE ASC;
 #Devuelve un listado con el identificador y el nombre de fabricante, solamente de aquellos fabricantes que tienen productos asociados en la base de datos.
