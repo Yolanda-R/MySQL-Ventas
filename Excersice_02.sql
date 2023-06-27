@@ -168,27 +168,33 @@ SELECT MAX(PRECIO) FROM PRODUCT;
 #Lista el nombre y el precio del producto más barato.
 SELECT NOMBRE, PRECIO FROM PRODUCT ORDER BY PRECIO ASC LIMIT 1;
 #Lista el nombre y el precio del producto más caro.
-
+SELECT NOMBRE,PRECIO FROM PRODUCT ORDER BY PRECIO ASC LIMIT 1;
 #Calcula la suma de los precios de todos los productos.
-
+SELECT SUM(PRECIO) FROM PRODUCT;
 #Calcula el número de productos que tiene el fabricante Asus.
-
+SELECT COUNT(NOMBRE) FROM MANUFACTURER WHERE NOMBRE = 'ASUS';
 #Calcula la media del precio de todos los productos del fabricante Asus.
-
+SELECT AVG(PRECIO) AS MEDIA FROM PRODUCT P JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID WHERE M.NOMBRE= 'ASUS';
 #Calcula el precio más barato de todos los productos del fabricante Asus.
-
+SELECT MIN(PRECIO) FROM PRODUCT P INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID WHERE M.NOMBRE='ASUS';
 #Calcula el precio más caro de todos los productos del fabricante Asus.
-
+SELECT MAX(PRECIO) FROM PRODUCT P INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID WHERE M.NOMBRE ='ASUS';
+SELECT P.PRECIO FROM PRODUCT P INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID WHERE M.NOMBRE ='ASUS'ORDER BY P.PRECIO DESC LIMIT 1;
 #Calcula la suma de todos los productos del fabricante Asus.
-
+SELECT SUM(PRECIO) FROM PRODUCT P INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID WHERE M.NOMBRE='ASUS';
 #Muestra el precio máximo, precio mínimo, precio medio y el número total de productos que tiene el fabricante Crucial.
-
+SELECT MAX(PRECIO) AS MAX, MIN(PRECIO) AS MIN, AVG(PRECIO) AS MEDIA, COUNT(PRECIO) AS CUENTA FROM PRODUCT P 
+INNER JOIN MANUFACTURER M  ON P.ID_FABRICANTE=M.ID
+WHERE M.NOMBRE ='Crucial';  
 #Muestra el número total de productos que tiene cada uno de los fabricantes. El listado también debe incluir los fabricantes que no tienen ningún producto. El resultado mostrará dos columnas, una con el nombre del fabricante y otra con el número de productos que tiene. Ordene el resultado descendentemente por el número de productos.
-
+SELECT M.NOMBRE, COUNT(P.NOMBRE) AS CUENTA FROM MANUFACTURER M LEFT JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE GROUP BY M.NOMBRE ORDER BY CUENTA DESC;
 #Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes. El resultado mostrará el nombre del fabricante junto con los datos que se solicitan.
-
+SELECT M.NOMBRE, MAX(PRECIO) AS MAX, MIN(PRECIO), AVG(PRECIO) AS MEDIA FROM MANUFACTURER M LEFT JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE GROUP BY M.NOMBRE;
 #Muestra el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€. No es necesario mostrar el nombre del fabricante, con el identificador del fabricante es suficiente.
-
+SELECT P.NOMBRE, P.ID_FABRICANTE , MAX(PRECIO),MIN(PRECIO), AVG(PRECIO) AS MEDIA, COUNT(PRECIO) AS CUENTA FROM  PRODUCT P
+INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID
+GROUP BY P.NOMBRE, P.ID_FABRICANTE
+HAVING MEDIA >200;
 #Muestra el nombre de cada fabricante, junto con el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€. Es necesario mostrar el nombre del fabricante.
 
 #Calcula el número de productos que tienen un precio mayor o igual a 180€.
