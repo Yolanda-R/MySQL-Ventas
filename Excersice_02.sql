@@ -196,17 +196,42 @@ INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE=M.ID
 GROUP BY P.NOMBRE, P.ID_FABRICANTE
 HAVING MEDIA >200;
 #Muestra el nombre de cada fabricante, junto con el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€. Es necesario mostrar el nombre del fabricante.
-
+SELECT M.NOMBRE, MAX(PRECIO) AS MAX, MIN(PRECIO) AS MIN, AVG(PRECIO) AS MEDIA, COUNT(PRECIO) AS CUENTA FROM MANUFACTURER M 
+LEFT JOIN PRODUCT P ON M.ID= P.ID_FABRICANTE 
+GROUP BY M.NOMBRE
+HAVING MEDIA >= 200;
 #Calcula el número de productos que tienen un precio mayor o igual a 180€.
-
+SELECT COUNT(NOMBRE) FROM PRODUCT WHERE PRECIO >= 180;
 #Calcula el número de productos que tiene cada fabricante con un precio mayor o igual a 180€.
-
+SELECT M.NOMBRE AS FABRIC,COUNT(PRECIO) FROM MANUFACTURER M 
+INNER JOIN PRODUCT P ON M.ID= P.ID_FABRICANTE 
+WHERE P.PRECIO >= 180
+GROUP BY FABRIC;
 #Lista el precio medio los productos de cada fabricante, mostrando solamente el identificador del fabricante.
-
+SELECT ID_FABRICANTE, AVG(PRECIO) AS MEDIA FROM PRODUCT GROUP BY ID_FABRICANTE;
 #Lista el precio medio los productos de cada fabricante, mostrando solamente el nombre del fabricante.
-
+SELECT M.NOMBRE AS FABRIC, AVG(PRECIO) AS MEDIA FROM MANUFACTURER M 
+INNER JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE 
+GROUP BY M.NOMBRE;
 #Lista los nombres de los fabricantes cuyos productos tienen un precio medio mayor o igual a 150€.
-
+SELECT M.NOMBRE AS FABRIC, AVG(PRECIO) AS MEDIA FROM MANUFACTURER M LEFT JOIN PRODUCT P ON M.ID= P.ID_FABRICANTE
+GROUP BY M.NOMBRE
+HAVING MEDIA >= 150;
 #Devuelve un listado con los nombres de los fabricantes que tienen 2 o más productos.
-
+SELECT M.NOMBRE  FROM MANUFACTURER M LEFT JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE 
+GROUP BY M.NOMBRE
+HAVING COUNT(*) >=2;
 #Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con un precio superior o igual a 220 €. No es necesario mostrar el nombre de los fabricantes que no tienen productos que cumplan la condición.
+SELECT M.NOMBRE AS FABRIC, COUNT(*) AS CUENTA FROM MANUFACTURER M
+LEFT JOIN PRODUCT P ON  M.ID=P.ID_FABRICANTE
+WHERE P.PRECIO >= 220
+GROUP BY FABRIC;
+ 
+
+
+
+
+
+
+
+
