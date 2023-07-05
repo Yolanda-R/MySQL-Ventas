@@ -226,12 +226,66 @@ SELECT M.NOMBRE AS FABRIC, COUNT(*) AS CUENTA FROM MANUFACTURER M
 LEFT JOIN PRODUCT P ON  M.ID=P.ID_FABRICANTE
 WHERE P.PRECIO >= 220
 GROUP BY FABRIC;
- 
+#Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con un precio superior o igual a 220 €. El listado debe mostrar el nombre de todos los fabricantes, es decir, si hay algún fabricante que no tiene productos con un precio superior o igual a 220€ deberá aparecer en el listado con un valor igual a 0 en el número de productos.
+SELECT M.NOMBRE, COUNT(P.ID) FROM  MANUFACTURER M LEFT JOIN PRODUCT P ON M.ID =P.ID_FABRICANTE 
+WHERE P.PRECIO>=220
+GROUP BY M.NOMBRE;
+SELECT M.NOMBRE AS NOMBRE_FABRICANTE, COALESCE(COUNT(P.ID), 0) AS NUMERO_PRODUCTOS
+FROM MANUFACTURER M
+LEFT JOIN (
+    SELECT ID_FABRICANTE, ID
+    FROM PRODUCT
+    WHERE PRECIO >= 220
+) P ON M.ID = P.ID_FABRICANTE
+GROUP BY M.NOMBRE 
+ORDER BY NUMERO_PRODUCTOS DESC;
+#Devuelve un listado con los nombres de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €.
+SELECT M.NOMBRE AS NOM_FAB, SUM(PRECIO) AS PRECIO FROM MANUFACTURER M INNER JOIN PRODUCT P ON M.ID = P.ID_FABRICANTE 
+GROUP BY NOM_FAB
+HAVING PRECIO > 1000; 
+#Devuelve un listado con el nombre del producto más caro que tiene cada fabricante. El resultado debe tener tres columnas: nombre del producto, precio y nombre del fabricante. El resultado tiene que estar ordenado alfabéticamente de menor a mayor por el nombre del fabricante
+SELECT M.NOMBRE AS N_FB, P.PRECIO AS PR, P.NOMBRE AS NOM_PR FROM MANUFACTURER M
+INNER JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE
+GROUP BY N_FB
+ORDER BY N_FB ASC;
+SELECT P.NOMBRE AS NOMBRE_PRODUCTO, P.PRECIO, M.NOMBRE AS NOMBRE_FABRICANTE
+FROM PRODUCT P
+INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID
+LEFT JOIN PRODUCT P2 ON P.ID_FABRICANTE = P2.ID_FABRICANTE AND P.PRECIO < P2.PRECIO
+WHERE P2.ID IS NULL
+ORDER BY M.NOMBRE ASC;
+SELECT P.NOMBRE AS NOMBRE_PRODUCTO, P.PRECIO, M.NOMBRE AS NOMBRE_FABRICANTE
+FROM PRODUCT P
+INNER JOIN MANUFACTURER M ON P.ID_FABRICANTE = M.ID
+INNER JOIN (
+    SELECT ID_FABRICANTE, MAX(PRECIO) AS MAX_PRECIO
+    FROM PRODUCT
+    GROUP BY ID_FABRICANTE
+) T ON P.ID_FABRICANTE = T.ID_FABRICANTE AND P.PRECIO = T.MAX_PRECIO
+ORDER BY M.NOMBRE ASC;
+## Subconsultas
+#Devuelve todos los productos del fabricante Lenovo. (Sin utilizar INNER JOIN).
 
+#Devuelve todos los datos de los productos que tienen el mismo precio que el producto más caro del fabricante Lenovo. (Sin utilizar INNER JOIN).
+SELECT 
+#Lista el nombre del producto más caro del fabricante Lenovo.
 
+#Lista el nombre del producto más barato del fabricante Hewlett-Packard.
 
+#Devuelve todos los productos de la base de datos que tienen un precio mayor o igual al producto más caro del fabricante Lenovo.
 
+#Lista todos los productos del fabricante Asus que tienen un precio superior al precio medio de todos sus productos.
 
+#Devuelve el producto más caro que existe en la tabla producto sin hacer uso de MAX, ORDER BY ni LIMIT.
 
+#Devuelve el producto más barato que existe en la tabla producto sin hacer uso de MIN, ORDER BY ni LIMIT.
+
+#Devuelve los nombres de los fabricantes que tienen productos asociados. (Utilizando ALL o ANY).
+
+#Devuelve los nombres de los fabricantes que no tienen productos asociados. (Utilizando ALL o ANY).
+
+#Devuelve los nombres de los fabricantes que tienen productos asociados. (Utilizando IN o NOT IN).
+
+#Devuelve los nombres de los fabricantes que no tienen productos asociados. (Utilizando IN o NOT IN).
 
 
