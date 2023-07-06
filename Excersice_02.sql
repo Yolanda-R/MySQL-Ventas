@@ -265,19 +265,31 @@ INNER JOIN (
 ORDER BY M.NOMBRE ASC;
 ## Subconsultas
 #Devuelve todos los productos del fabricante Lenovo. (Sin utilizar INNER JOIN).
-
+SELECT NOMBRE AS PROD, (SELECT NOMBRE FROM MANUFACTURER WHERE ID=P.ID_FABRICANTE) AS FAB FROM PRODUCT P
+WHERE ID_FABRICANTE =(
+SELECT ID  FROM MANUFACTURER WHERE NOMBRE ='LENOVO');
 #Devuelve todos los datos de los productos que tienen el mismo precio que el producto más caro del fabricante Lenovo. (Sin utilizar INNER JOIN).
-SELECT 
+SELECT NOMBRE AS PROD FROM PRODUCT 
+WHERE PRECIO =(
+SELECT MAX(PRECIO) AS PRICE FROM PRODUCT WHERE ID_FABRICANTE =(SELECT ID FROM MANUFACTURER WHERE NOMBRE = 'LENOVO'));  
 #Lista el nombre del producto más caro del fabricante Lenovo.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT WHERE PRECIO=(
+SELECT MAX(PRECIO) FROM PRODUCT  WHERE ID_FABRICANTE =(SELECT ID FROM MANUFACTURER WHERE NOMBRE = 'LENOVO'));
 #Lista el nombre del producto más barato del fabricante Hewlett-Packard.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT 
+WHERE PRECIO =(
+SELECT MIN(PRECIO) FROM PRODUCT WHERE ID_FABRICANTE =(SELECT ID FROM MANUFACTURER WHERE NOMBRE = 'Hewlett-Packard'));
 #Devuelve todos los productos de la base de datos que tienen un precio mayor o igual al producto más caro del fabricante Lenovo.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT 
+WHERE PRECIO >=(
+SELECT MAX(PRECIO) FROM PRODUCT WHERE ID_FABRICANTE =(SELECT ID FROM MANUFACTURER WHERE NOMBRE = 'LENOVO'));
 #Lista todos los productos del fabricante Asus que tienen un precio superior al precio medio de todos sus productos.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT 
+WHERE PRECIO >= (SELECT AVG(PRECIO) FROM PRODUCT WHERE ID_FABRICANTE =(SELECT ID FROM MANUFACTURER WHERE NOMBRE = 'ASUS'));
 #Devuelve el producto más caro que existe en la tabla producto sin hacer uso de MAX, ORDER BY ni LIMIT.
-
+SELECT NOMBRE, PRECIO FROM PRODUCT 
+WHERE PRECIO =
+(SELECT PRECIO FROM PRODUCT ORDER BY PRECIO DESC LIMIT 1);
 #Devuelve el producto más barato que existe en la tabla producto sin hacer uso de MIN, ORDER BY ni LIMIT.
 
 #Devuelve los nombres de los fabricantes que tienen productos asociados. (Utilizando ALL o ANY).
