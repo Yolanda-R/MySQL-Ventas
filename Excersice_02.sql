@@ -312,3 +312,16 @@ SELECT M.NOMBRE AS FAB, P.NOMBRE AS PROD FROM MANUFACTURER M
 LEFT JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE WHERE P.NOMBRE IS NULL;
 SELECT M.NOMBRE AS FAB FROM MANUFACTURER M
 WHERE not EXISTS (SELECT 1 FROM PRODUCT P WHERE P.ID_FABRICANTE = M.ID);
+#Lista el nombre de cada fabricante con el nombre y el precio de su producto más caro.
+SELECT M.NOMBRE AS FAB, P.NOMBRE AS PROD, P.PRECIO AS PRECIO FROM MANUFACTURER M
+JOIN PRODUCT P ON M.ID=P.ID_FABRICANTE 
+WHERE P.PRECIO=(SELECT MAX(P2.PRECIO) FROM PRODUCT P2 WHERE P2.ID_FABRICANTE=M.ID);
+#Devuelve un listado de todos los productos que tienen un precio mayor o igual a la media de todos los productos de su mismo fabricante.
+SELECT NOMBRE AS ROD , PRECIO FROM PRODUCT 
+WHERE PRECIO >=(SELECT AVG(PRECIO) FROM PRODUCT); 
+SELECT P.NOMBRE AS PROD, P.PRECIO FROM PRODUCT P
+JOIN (SELECT M.NOMBRE AS FAB, AVG(PRECIO) AS PM FROM PRODUCT GROUP BY M.NOMBRE ) M ON P.ID_FABRICANTE=M.ID
+WHERE P.PRECIO >= M.PM;
+#Lista el nombre del producto más caro del fabricante Lenovo.
+
+#Devuelve un listado con todos los nombres de los fabricantes que tienen el mismo número de productos que el fabricante Lenovo.

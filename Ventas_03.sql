@@ -91,17 +91,21 @@ SELECT * FROM CLIENTE WHERE NOMBRE NOT LIKE 'A%' ORDER BY NOMBRE;
 #Devuelve un listado con los nombres de los comerciales que terminan por el o o. Tenga en cuenta que se deberán eliminar los nombres repetidos.
 SELECT DISTINCT(NOMBRE) FROM COMERCIAL WHERE NOMBRE LIKE '%O';
 #Devuelve un listado con el identificador, nombre y los apellidos de todos los clientes que han realizado algún pedido. El listado debe estar ordenado alfabéticamente y se deben eliminar los elementos repetidos.
-
+SELECT DISTINCT C.ID, C.NOMBRE, C.APELLIDO1 FROM CLIENTE C INNER JOIN PEDIDO P ON C.ID=P.ID_CLIENTE;
 #Devuelve un listado que muestre todos los pedidos que ha realizado cada cliente. El resultado debe mostrar todos los datos de los pedidos y del cliente. El listado debe mostrar los datos de los clientes ordenados alfabéticamente.
-
+SELECT C.ID, C.NOMBRE, C.APELLIDO1, P.TOTAL, P.FECHA FROM CLIENTE C INNER JOIN PEDIDO P ON C.ID=P.ID_CLIENTE ORDER BY C.NOMBRE ASC; 
 #Devuelve un listado que muestre todos los pedidos en los que ha participado un comercial. El resultado debe mostrar todos los datos de los pedidos y de los comerciales. El listado debe mostrar los datos de los comerciales ordenados alfabéticamente.
-
+SELECT P.TOTAL, P.FECHA, C.NOMBRE, C.ID FROM PEDIDO P INNER JOIN COMERCIAL C ON P.ID_COMERCIAL= C.ID;
 #Devuelve un listado que muestre todos los clientes, con todos los pedidos que han realizado y con los datos de los comerciales asociados a cada pedido.
-
+SELECT E.NOMBRE AS CLIE, P.TOTAL AS PED, L.NOMBRE AS COMER FROM CLIENTE E JOIN PEDIDO P ON E.ID=P.ID_CLIENTE JOIN COMERCIAL L ON L.ID=P.ID_COMERCIAL;
 #Devuelve un listado de todos los clientes que realizaron un pedido durante el año 2017, cuya cantidad esté entre 300 € y 1000 €.
-
+SELECT C.NOMBRE, P.TOTAL, P.FECHA FROM CLIENTE C JOIN PEDIDO P ON C.ID=P.ID_CLIENTE
+WHERE YEAR(P.FECHA)= 2017 AND P.TOTAL BETWEEN 300 AND 1000;
 #Devuelve el nombre y los apellidos de todos los comerciales que ha participado en algún pedido realizado por María Santana Moreno.
-
+SELECT M.NOMBRE AS NCOM, M.APELLIDO1 AS ACOM, CONCAT(E.NOMBRE,E.APELLIDO1,E.APELLIDO2) AS CLIENTE FROM COMERCIAL M 
+JOIN PEDIDO P ON M.ID=P.ID_COMERCIAL JOIN CLIENTE E ON E.ID=P.ID_CLIENTE
+WHERE CONCAT(E.NOMBRE,E.APELLIDO1,E.APELLIDO2) = 'MaríaSantanaMoreno';
+SELECT * FROM CLIENTE;
 #Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
 
 #Resuelva todas las consultas utilizando las cláusulas LEFT JOIN y RIGHT JOIN.
