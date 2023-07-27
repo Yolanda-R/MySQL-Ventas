@@ -107,19 +107,34 @@ JOIN PEDIDO P ON M.ID=P.ID_COMERCIAL JOIN CLIENTE E ON E.ID=P.ID_CLIENTE
 WHERE CONCAT(E.NOMBRE,E.APELLIDO1,E.APELLIDO2) = 'MaríaSantanaMoreno';
 SELECT * FROM CLIENTE;
 #Devuelve el nombre de todos los clientes que han realizado algún pedido con el comercial Daniel Sáez Vega.
-
+SELECT C.NOMBRE AS CNOM, P.ID AS PED, CONCAT(E.NOMBRE, E.APELLIDO1, E.APELLIDO2) AS COMERCIAL FROM CLIENTE C 
+JOIN PEDIDO P ON C.ID=P.ID_CLIENTE JOIN COMERCIAL E ON E.ID=P.ID_COMERCIAL
+WHERE CONCAT(E.NOMBRE, E.APELLIDO1, E.APELLIDO2) = "DanielSáezVega" ;
+SELECT * FROM PEDIDO;
 #Resuelva todas las consultas utilizando las cláusulas LEFT JOIN y RIGHT JOIN.
-
 #Devuelve un listado con todos los clientes junto con los datos de los pedidos que han realizado. Este listado también debe incluir los clientes que no han realizado ningún pedido. El listado debe estar ordenado alfabéticamente por el primer apellido, segundo apellido y nombre de los clientes.
-
+SELECT C.APELLIDO1, C.APELLIDO2, C.NOMBRE, P.TOTAL  FROM CLIENTE C 
+LEFT JOIN PEDIDO P ON C.ID=P.ID_CLIENTE
+ORDER BY C.APELLIDO1, C.APELLIDO2, C.NOMBRE;
 #Devuelve un listado con todos los comerciales junto con los datos de los pedidos que han realizado. Este listado también debe incluir los comerciales que no han realizado ningún pedido. El listado debe estar ordenado alfabéticamente por el primer apellido, segundo apellido y nombre de los comerciales.
-
+SELECT E.APELLIDO1, E.APELLIDO2, E.NOMBRE, P.TOTAL FROM COMERCIAL E
+LEFT JOIN PEDIDO P ON E.ID=P.ID_COMERCIAL
+ORDER BY E.APELLIDO1, E.APELLIDO2, E.NOMBRE; 
 #Devuelve un listado que solamente muestre los clientes que no han realizado ningún pedido.
-
+SELECT C.APELLIDO1, C.APELLIDO2, C.NOMBRE, P.TOTAL  FROM CLIENTE C 
+LEFT JOIN PEDIDO P ON C.ID=P.ID_CLIENTE
+WHERE P.TOTAL IS NULL
+ORDER BY C.APELLIDO1, C.APELLIDO2, C.NOMBRE;
 #Devuelve un listado que solamente muestre los comerciales que no han realizado ningún pedido.
-
+SELECT E.APELLIDO1, E.APELLIDO2, E.NOMBRE, P.TOTAL FROM COMERCIAL E
+LEFT JOIN PEDIDO P ON E.ID=P.ID_COMERCIAL
+WHERE P.TOTAL IS NULL;
 #Devuelve un listado con los clientes que no han realizado ningún pedido y de los comerciales que no han participado en ningún pedido. Ordene el listado alfabéticamente por los apellidos y el nombre. En en listado deberá diferenciar de algún modo los clientes y los comerciales.
-
+SELECT 'CLIENTE' AS TIPO, C.APELLIDO1, C.APELLIDO2, C.NOMBRE FROM CLIENTE C
+WHERE NOT EXISTS (SELECT 1 FROM PEDIDO P WHERE P.ID_CLIENTE=C.ID)
+UNION 
+SELECT 'COMERCIAL' AS TIPO, E.APELLIDO1, E.APELLIDO2, E.NOMBRE FROM COMERCIAL E 
+WHERE NOT EXISTS(SELECT 1 FROM PEDIDO P WHERE P.ID_COMERCIAL=E.ID);
 #¿Se podrían realizar las consultas anteriores con NATURAL LEFT JOIN o NATURAL RIGHT JOIN? Justifique su respuesta.
 
 #Calcula la cantidad total que suman todos los pedidos que aparecen en la tabla pedido.
