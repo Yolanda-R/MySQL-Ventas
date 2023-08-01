@@ -135,7 +135,6 @@ WHERE NOT EXISTS (SELECT 1 FROM PEDIDO P WHERE P.ID_CLIENTE=C.ID)
 UNION 
 SELECT 'COMERCIAL' AS TIPO, E.APELLIDO1, E.APELLIDO2, E.NOMBRE FROM COMERCIAL E 
 WHERE NOT EXISTS(SELECT 1 FROM PEDIDO P WHERE P.ID_COMERCIAL=E.ID);
-#¿Se podrían realizar las consultas anteriores con NATURAL LEFT JOIN o NATURAL RIGHT JOIN? Justifique su respuesta.
 
 #Calcula la cantidad total que suman todos los pedidos que aparecen en la tabla pedido.
 
